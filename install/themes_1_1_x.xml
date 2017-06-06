@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>charlesh:blog</id>
+	<version>0.8.1</version>
+
+<file name="$themedir/index.template.php">
+
+		<operation>
+		
+<search position="replace"><![CDATA[<meta name="description" content="', $context['page_title'], '" />]]></search>
+
+<add><![CDATA[<meta name="description" content="', !empty($context['zc']['meta']['description']) ? $context['zc']['meta']['description'] : $context['page_title'], '" />]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="replace"><![CDATA[<meta name="keywords" content="PHP, MySQL, bulletin, board, free, open, source, smf, simple, machines, forum" />]]></search>
+
+<add><![CDATA[<meta name="keywords" content="', !empty($context['zc']['meta']['keywords']) ? $context['zc']['meta']['keywords'] : '', '" />]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// The ?fin11 part]]></search>
+
+<add><![CDATA[// load the css stylesheets up here...
+	if (isset($modSettings['zc_mode']))
+	{
+		// load stylesheets?
+		if (!empty($context['zc']['load_css_stylesheets']))
+			foreach ($context['zc']['load_css_stylesheets'] as $url)
+				echo '
+<link rel="stylesheet" type="text/css" href="', $url, '" />';
+	}
+
+	]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[</head>]]></search>
+
+<add><![CDATA[';
+
+	// zCommunity...
+	if (isset($modSettings['zc_mode']))
+	{
+		// load js files?
+		if (!empty($context['zc']['load_js_files']))
+			foreach ($context['zc']['load_js_files'] as $url)
+				echo '
+<script type="text/javascript" src="', $url, '"></script>';
+	
+		// special style info?
+		if (!empty($context['zc']['extra_css_style']))
+			echo '
+<style type="text/css" media="screen">', implode('
+', $context['zc']['extra_css_style']), '
+</style>';
+	
+		// relative links...
+		if (!empty($context['zc']['page_relative_links']))
+			foreach ($context['zc']['page_relative_links'] as $rel => $array)
+				echo '
+<link rel="', $rel, '"', !empty($array['type']) ? ' type="'. $array['type'] .'"' : '', ' href="', $array['url'], '"', !empty($array['target']) ? ' target="'. $array['target'] .'"' : '', ' />';
+	}
+
+echo '
+]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="before"><![CDATA[$last = 'last';
+	}]]></search>
+
+<add><![CDATA[
+	
+	// are we viewing a page in the blogging community?
+	if (!empty($context['zc']['show_zc_nav']) && !empty($context['zc']['in_zcommunity']))
+		$current_action = 'zc';]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="before"><![CDATA['home' ? '<td class="maintab_active_' . $last . '">&nbsp;</td>' : '';]]></search>
+
+<add><![CDATA[
+				
+	// Show the [Blogs] link?
+	if (!empty($context['zc']['show_zc_nav']))
+		echo ($current_action == 'zc' || $context['browser']['is_ie4']) ? '<td class="maintab_active_' . $first . '">&nbsp;</td>' : '', '
+				<td valign="top" class="maintab_', $current_action == 'zc' ? 'active_back' : 'back', '">
+					<a href="', $scripturl, '?zc">', $txt['b1a'], '</a>
+				</td>', $current_action == 'zc' ? '<td class="maintab_active_' . $last . '">&nbsp;</td>' : '';]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// Show the "Powered by"]]></search>
+
+<add><![CDATA[// float the footer right if viewing a zcommunity page...
+	if (!empty($context['blog_community']))
+		echo '
+	<div style="float:right; text-align:center; width:100%;">';
+
+	]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// The following will be used to let the user know that some AJAX]]></search>
+
+<add><![CDATA[// close footer div if viewing a zcommunity page...
+	if (!empty($context['blog_community']))
+		echo '
+	</div>';
+
+	]]></add>
+
+		</operation>
+
+</file>
+
+</modification>

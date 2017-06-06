@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>charlesh:blog</id>
+	<version>0.8.1</version>
+
+
+<file name="$boarddir/index.php">
+
+		<operation>
+		
+<search position="before"><![CDATA[is_not_banned();]]></search>
+
+<add><![CDATA[
+		
+	if (isset($modSettings['zc_mode']))
+	{
+		global $boarddir;
+			
+		// initialize zCommunity...
+		if (file_exists($boarddir . '/zCommunity/index.php'))
+		{
+			global $context, $zc, $zcFunc, $blog_info, $blog, $article, $comment, $poll, $draft;
+			require_once($boarddir . '/zCommunity/index.php');
+		}
+		else
+			unset($modSettings['zc_mode']);
+	}]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[elseif (empty($_REQUEST['action']))]]></search>
+
+<add><![CDATA[// entering the zCommunity...
+	elseif (isset($modSettings['zc_mode']) && isset($zc['main_dir']) && empty($_REQUEST['action']) && (isset($_REQUEST['zc']) || !empty($_REQUEST['blog']) || !empty($_REQUEST['article'])))
+	{
+		return 'zc_main';
+	}
+	]]></add>
+
+		</operation>
+		
+</file>
+
+
+</modification>

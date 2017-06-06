@@ -1,0 +1,423 @@
+html
+{
+	height:100%;
+	margin-bottom:1px;
+}
+/* The general styles that apply to all elements */
+*
+{
+	margin:0;
+	padding:0;
+}
+.clr
+{
+	clear:both;
+}
+a, a:visited
+{
+	color:#7590D6;
+	text-decoration: none;
+}
+a:hover
+{
+	color: #2D5DD6;
+	text-decoration: none;
+}
+input, textarea
+{
+	padding:2px;
+}
+/* (MAIN) LAYOUT */
+body
+{
+	margin: 0px;
+	padding: 0px;
+	height:100%;
+	font-family: Tahoma, Arial, sans-serif;
+	color: #525252;
+	font-size: 12px;
+	background: #fff;
+	line-height:150%;
+}
+hr, .hrcolor
+{
+	height: 1px;
+	margin-bottom: 5px;
+	border: 0;
+	color: #DDDDDD;
+	background: #DDDDDD;
+}
+/* The headings */
+h1, h2, h3, h4, h5
+{
+	font-weight: bold;
+}
+/* The tables */
+table
+{
+	margin: 0 auto;
+}
+
+.blogTitle
+{
+	font-size:16px;
+	color:#737373;
+}
+#topSection
+{
+	border-bottom: 1px solid #DDDDDD;
+}
+tr.r1 td
+{
+	padding:0;
+	background-color:#FBFBFF;
+}
+tr.r2 td
+{
+	padding:0;
+	background-color:#F4F6FF;
+}
+.light_text
+{
+	color:#8F8F8F;
+}
+
+/*  Drop down nav menu  */
+
+ul.dropNav
+{
+	color:#525252;
+	list-style:none;
+	float:right;
+	margin-top:4px;
+	margin-bottom:-5px;
+}
+ul.dropNav li
+{
+	float: left;
+	padding: 5px;
+}
+ul.dropNav li ul
+{
+	display:none;
+	position:absolute;
+	z-index:999;
+	list-style:none;
+	background-color:#fff;
+	border: 1px solid #cccccc;
+	border-top: 0;
+	white-space:nowrap;
+	line-height:130%;
+	margin-left:-5px;
+	text-align:left;
+}
+ul.dropNav li ul li
+{
+	margin:0;
+	float:none;
+	padding-top:0;
+	padding-left:8px;
+	padding-right:8px;
+}
+ul.dropNav li a, ul.dropNav li ul li a
+{
+	color:#525252;
+	display: block;
+	text-decoration: none;
+	font-weight:normal;
+	padding:5px;
+}
+ul.dropNav li a:hover, ul.dropNav li ul li a:hover
+{
+	color:#587CD5;
+}
+
+/* No image should have a border when linked */
+a img
+{
+border: 0;
+}
+/* A quote, perhaps from another post. */
+.quote {
+	color: #878787;
+	background-color:#F1F7FF;
+	border: 1px dotted #D7D7D7;
+	font-size: 12px;
+	line-height: 1.4em;
+	margin: 0 auto 8px auto;
+	padding: 8px;
+}
+/*.quote div.quote {
+	background: #F0F8FF url(images/blank.gif) no-repeat bottom right;
+}*/
+/* A code block - maybe even PHP ;). */
+.code {
+	color: #737373;
+	background-color:#FFF2ED;/* FFF9F7 */
+	border: 1px dotted #D7D7D7;
+	font-size:  12px;
+	line-height: 1.4em;
+	font-family: "courier new", helvetica, "times new roman", serif;
+	white-space: nowrap;
+	margin: 0 auto 8px auto;
+	padding: 8px;
+}
+/* The "Quote:" and "Code:" header parts... */
+.quoteheader {
+	background: #EFF3F9;
+	border: 1px dotted #D7D7D7;
+	border-bottom: 0;
+	color: #AAAAAA;
+	font-weight: normal;
+	font-size: 12px;
+	margin: 8px auto 0 auto;
+	padding: 8px;
+}
+.codeheader {
+	background: #FFEEE6;/* FFF4EF */
+	border: 1px dotted #D7D7D7;
+	border-bottom: 0;
+	color: #AAAAAA;
+	font-weight: normal;
+	font-size: 12px;
+	margin: 8px auto 0 auto;
+	padding: 8px;
+}
+.help
+{
+	cursor: help;
+}
+.meaction
+{
+	color: red;
+}
+.editor
+{
+	width: 96%;
+}
+.highlight
+{
+	background: yellow;
+	font-weight: bold;
+	color: black;
+}
+.smalltext
+{
+	font-size: x-small;
+	font-family: verdana, sans-serif;
+}
+.middletext
+{
+	font-size: 90%;
+}
+.normaltext
+{
+	font-size: small;
+}
+.largetext
+{
+	font-size: large;
+}
+.post, .personalmessage
+{
+	width: 100%;
+	overflow: auto;
+	line-height: 1.3em;
+}
+td.main_container_center
+{
+	min-width:800px;
+}
+#ajax_in_progress 
+{
+	background: #FFF;
+	color: #525252;
+	text-align: center;
+	font-size: 14px;
+	font-weight:normal;
+	font-family: "Trebuchet MS", sans-serif;
+	padding: 10px;
+	position: absolute;
+	right: 3px;
+	top: 3px;
+	border: 1px solid #D0D0D0;
+}
+#ajax_center
+{
+	top: 45%;
+	width: 105px;
+	position: absolute;
+	left: 50%;
+}
+td.copyright a, div.copyright a
+{
+	color:#737373;
+}
+td.copyright a:hover, div.copyright a:hover
+{
+	color:#525252;
+}
+
+tr.articleTitle td h1, div.articleTitle h1
+{
+	font-size:14px;
+	font-weight:bold;
+}
+/* Blog stuff... start */
+.controlPanelSectionHeader
+{
+	font-weight:bold;
+	background-color:transparent;
+	font-size:15px;
+	border-width:0;
+	border-bottom-width:1px;
+	border-style:solid;
+	border-color:#999999;
+}
+.controlPanelDisplayBox
+{
+	background-color:#fff;
+	border-style:solid;
+	border-width:1px;
+	border-color:#A6CCDE;
+	padding:3px;
+	padding-right:6px;
+	padding-left:6px;
+	margin-right:8px;
+}
+
+tr.blogSideWindowHeader td, .blogSideWindowHeader
+{
+	color:#737373;
+	font-size:13px;
+	font-weight:bold;
+	padding:5px;
+}
+tr.blogRowTitle td, div.blogRowTitle
+{
+	color:#737373;
+	font-weight:bold;
+	padding:5px;
+	white-space:nowrap;
+}
+div.msgOptionsDropDown
+{
+	white-space:nowrap;
+	vertical-align:bottom;
+}
+div.msgOptionsDropDown div.alwaysDisplay
+{
+	visibility:visible;
+	vertical-align:middle;
+}
+div.msgOptionsDropDown:hover div.alwaysDisplay
+{
+	visibility:hidden;
+}
+div.msgOptionsDropDown div.displayOnHover
+{
+	display:none;
+	position:absolute;
+	z-index:100;
+	padding:0;
+	margin:0;
+	margin-right:15px;
+	color:#656565;
+	border:1px solid #ABB9CF;
+	background-color:#ffffff;
+	white-space:nowrap;
+}
+div.msgOptionsDropDown div.displayOnHover a
+{
+	padding:0;
+	margin:0;
+}
+div.msgOptionsDropDown div.displayOnHover img
+{
+	padding:5px;
+	vertical-align:middle;
+	text-align:center;
+}
+div.msgOptionsDropDown:hover div.displayOnHover
+{
+	display:block;
+}
+tr.commentsHeader td
+{
+	padding:6px;
+	color:#737373;
+}
+.commentSpecial
+{
+	color:#AAAAAA;
+}
+.lastEdit
+{
+	font-size:10px;
+	color:#AAAAAA;
+}
+td.windowHeaderPageIndex
+{
+	white-space:nowrap;
+	font-weight:normal;
+}
+td.windowHeaderPageIndex a
+{
+	color:#fff;
+}
+td.windowHeaderPageIndex a:hover
+{
+	color:#2C537F;
+}
+td.blogArticleHeader h1
+{
+	font-size:14px;
+	text-align:center;
+	font-weight:bold;
+}
+div.blogHelpText
+{
+	text-align:left;
+	margin:12px;
+	line-height:120%;
+}
+.plain_text_divider
+{
+	font-size:14px;
+	color:#C6C6C6;
+}
+.article_posted_by
+{
+	color:#AAAAAA;
+}
+.block_titles
+{
+	font-size:13px;
+}
+.commentbg
+{
+	border: 1px solid #DEE3F7;
+	background-color:#F8F8FF;
+}
+.commentbg2
+{
+	border: 1px solid #D4DAF4;
+	background-color:#EEF1FF;
+}
+.err
+{
+	color:#525252;
+	border: 1px solid #FBE1E1;
+	background-color:#FFF4F4;
+}
+.success
+{
+	color:#525252;
+	border: 1px solid #D8F2D5;
+	background-color:#EAFFE5;
+}
+.sideWindow
+{
+	background-color:#FAFBFF;
+	border:1px dashed #E0E0E0;
+}

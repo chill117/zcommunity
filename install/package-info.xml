@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	
+	<name>zCommunity</name>
+	<id>charlesh:blog</id>
+	<version>0.8.1</version>
+	<type>modification</type>
+
+	<install for="1.1.1-1.1.99">
+		 <readme type="file" parsebbc="true">readme.txt</readme>
+		 <modification format="xml" type="file">other_1_1_x.xml</modification>
+		 <modification format="xml" type="file">sources_1_1_x.xml</modification>
+		 <modification format="xml" type="file">themes_1_1_x.xml</modification>
+		 <code>install_db_edits.php</code>
+	</install>
+
+	<uninstall for="1.1.1-1.1.99">
+		 <modification format="xml" type="file" reverse="true">other_1_1_x.xml</modification>
+		 <modification format="xml" type="file" reverse="true">sources_1_1_x.xml</modification>
+		 <modification format="xml" type="file" reverse="true">themes_1_1_x.xml</modification>
+	</uninstall>
+	
+	<install for="2.0-2.1.99">
+		 <readme type="file" parsebbc="true">readme.txt</readme>
+		 <modification format="xml" type="file">other_2.xml</modification>
+		 <modification format="xml" type="file">sources_2.xml</modification>
+		 <modification format="xml" type="file">themes_2.xml</modification>
+		 <code>install_db_edits.php</code>
+	</install>
+	
+	<uninstall for="2.0-2.1.99">
+		 <modification format="xml" type="file" reverse="true">other_2.xml</modification>
+		 <modification format="xml" type="file" reverse="true">sources_2.xml</modification>
+		 <modification format="xml" type="file" reverse="true">themes_2.xml</modification>
+	</uninstall>
+
+</package-info>

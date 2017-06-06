@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>charlesh:blog</id>
+	<version>0.8.1</version>
+
+
+<file name="$sourcedir/Subs.php">
+
+		<operation>
+		
+<search position="after"><![CDATA['help' => array(]]></search>
+
+<add><![CDATA['zcommunity' => array(
+				'title' => !empty($txt['b1a']) ? $txt['b1a'] : 'Blogs',
+				'href' => $scripturl . '?zc',
+				'show' => !empty($context['zc']['show_zc_nav']),
+				'sub_buttons' => array(
+				),
+			),
+			]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[$context['menu_buttons'][$current_action]['active_button'] = true;]]></search>
+
+<add><![CDATA[if (!empty($context['zc']['in_zcommunity']))
+		$current_action = 'zcommunity';
+
+	]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="before"><![CDATA['show' => allowedTo('admin_forum') && !empty($modSettings['enableErrorLogging']),
+					),]]></search>
+
+<add><![CDATA[
+					'zcommunity_admin' => array(
+						'title' => !empty($txt['b551']) ? $txt['b551'] : 'Control Panel',
+						'href' => $scripturl . '?zc=bcp',
+						'show' => isset($modSettings['zc_mode']),
+					),]]></add>
+
+		</operation>
+		
+</file>
+
+
+<file name="$sourcedir/Who.php">
+
+		<operation>
+		
+<search position="before"><![CDATA[$board_ids = array();]]></search>
+
+<add><![CDATA[
+	$blog_ids = array();
+	$article_ids = array();]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// Check if there was no action or the action is display]]></search>
+
+<add><![CDATA[// maybe they're viewing stuff in the site's zCommunity?
+		if (isset($modSettings['zc_mode']) && !isset($actions['action']) && (isset($actions['zc']) || isset($actions['blog']) || isset($actions['article'])))
+		{
+			global $zc;
+		
+			// load zcomm's Who language file
+			if (function_exists('zcLoadLanguage'))
+			{
+				if (zcLoadLanguage('Who') == false)
+					zcLoadLanguage('Who','english');
+			}
+			
+			// we assume they aren't allowed to see...
+			$data[$k] = $txt['b570'];
+		
+			if (!isset($actions['zc']) && isset($actions['article']))
+				$article_ids[(int) $actions['article']][$k] = $txt['b568'];
+			elseif (!isset($actions['zc']) && isset($actions['blog']))
+				$blog_ids[(int) $actions['blog']][$k] = $txt['b569'];
+			else
+			{
+				if (!function_exists('zc_who_viewing_zc_action') && file_exists($zc['sources_dir'] . '/Who.php'))
+					require_once($zc['sources_dir'] . '/Who.php');
+					
+				if (function_exists('zc_who_viewing_zc_action'))
+					$temp = zc_who_viewing_zc_action($actions);
+			}
+				
+			if (isset($temp))
+			{
+				if (!empty($temp[0]))
+					$article_ids[(int) $actions['article']][$k] = $temp[0];
+				elseif (!empty($temp[1]))
+					$blog_ids[(int) $actions['blog']][$k] = $temp[1];
+				elseif (!empty($temp[2]))
+					$data[$k] = $temp[2];
+					
+				unset($temp);
+			}
+			
+			// continue to the next one so that the info we got isn't overwritten...
+			continue;
+		}
+
+		]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// Load topic names.]]></search>
+
+<add><![CDATA[// extra processing for zCommunity stuff...
+	if (isset($modSettings['zc_mode']))
+	{
+		if (!empty($article_ids) || !empty($blog_ids))
+		{
+			global $zc, $zcFunc;
+			
+			// get an array of all the blogs the user can see...
+			if (function_exists('zc_get_visible_blogs'))
+				$visible_blogs = zc_get_visible_blogs();
+				
+			if (!empty($visible_blogs))
+			{
+				// Load article subjects...
+				if (!empty($article_ids))
+				{
+					$request = $zcFunc['db_query']("
+						SELECT article_id, subject
+						FROM {db_prefix}blog_articles
+						WHERE (blog_id IN ({array_int:visible_blogs}) OR blog_id = 0)
+							AND article_id IN ({array_int:articles})
+						LIMIT {int:limit}", __FILE__, __LINE__,
+						array(
+							'limit' => count($article_ids),
+							'visible_blogs' => $visible_blogs,
+							'articles' => array_keys($article_ids)
+						)
+					);
+					while ($row = $zcFunc['db_fetch_assoc']($request))
+					{
+						censorText($row['subject']);
+						$row['subject'] = stripslashes($row['subject']);
+						foreach ($article_ids[$row['article_id']] as $k => $session_text)
+							$data[$k] = sprintf($session_text, $row['article_id'], $row['subject']);
+					}
+					$zcFunc['db_free_result']($request);
+				}
+				
+				// Load blog names...
+				if (!empty($blog_ids))
+				{
+					$blogs = array_intersect(array_keys($blog_ids), $visible_blogs);
+					
+					if (!empty($blogs))
+					{
+						$request = $zcFunc['db_query']("
+							SELECT blog_id, name
+							FROM {db_prefix}blog_blogs
+							WHERE blog_id IN ({array_int:blogs})
+							LIMIT {int:limit}", __FILE__, __LINE__,
+							array(
+								'limit' => count($blogs),
+								'blogs' => $blogs,
+							)
+						);
+						while ($row = $zcFunc['db_fetch_assoc']($request))
+						{
+							censorText($row['name']);
+							$row['name'] = stripslashes($row['name']);
+							foreach ($blog_ids[$row['blog_id']] as $k => $session_text)
+								$data[$k] = sprintf($session_text, $row['blog_id'], $row['name']);
+						}
+						$zcFunc['db_free_result']($request);
+					}
+				}
+			}
+		}
+	}
+
+	]]></add>
+
+		</operation>
+		
+</file>
+
+
+</modification>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+	<id>charlesh:blog</id>
+	<version>0.8.1</version>
+
+<file name="$themedir/index.template.php">
+
+		<operation>
+		
+<search position="replace"><![CDATA[<meta name="description" content="', $context['page_title_html_safe'], '" />]]></search>
+
+<add><![CDATA[<meta name="description" content="', !empty($context['zc']['meta']['description']) ? $context['zc']['meta']['description'] : $context['page_title_html_safe'], '" />]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="replace"><![CDATA[<meta name="keywords" content="', $context['meta_keywords'], '" />]]></search>
+
+<add><![CDATA[<meta name="keywords" content="', !empty($context['zc']['meta']['keywords']) ? $context['zc']['meta']['keywords'] : $context['meta_keywords'], '" />]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[// Please don't index these Mr Robot.]]></search>
+
+<add><![CDATA[// load the css stylesheets up here...
+	if (isset($modSettings['zc_mode']))
+	{
+		// load stylesheets?
+		if (!empty($context['zc']['load_css_stylesheets']))
+			foreach ($context['zc']['load_css_stylesheets'] as $url)
+				echo '
+<link rel="stylesheet" type="text/css" href="', $url, '" />';
+	}
+
+	]]></add>
+
+		</operation>
+
+		<operation>
+		
+<search position="after"><![CDATA[</head>]]></search>
+
+<add><![CDATA[';
+
+	// zCommunity...
+	if (isset($modSettings['zc_mode']))
+	{
+		// load js files?
+		if (!empty($context['zc']['load_js_files']))
+			foreach ($context['zc']['load_js_files'] as $url)
+				echo '
+<script type="text/javascript" src="', $url, '"></script>';
+	
+		// special style info?
+		if (!empty($context['zc']['extra_css_style']))
+			echo '
+<style type="text/css" media="screen">', implode('
+', $context['zc']['extra_css_style']), '
+</style>';
+	
+		// relative links...
+		if (!empty($context['zc']['page_relative_links']))
+			foreach ($context['zc']['page_relative_links'] as $rel => $array)
+				echo '
+<link rel="', $rel, '"', !empty($array['type']) ? ' type="'. $array['type'] .'"' : '', ' href="', $array['url'], '"', !empty($array['target']) ? ' target="'. $array['target'] .'"' : '', ' />';
+	}
+
+echo '
+]]></add>
+
+		</operation>
+
+</file>
+
+</modification>
